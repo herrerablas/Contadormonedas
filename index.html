@@ -43,7 +43,7 @@ input,select,textarea{font:inherit;color:inherit}
 .pill{border-radius:999px}
 
 /* ---------- vistas ---------- */
-.view{position:fixed;inset:0;display:none;flex-direction:column;padding:calc(var(--st) + 10px) 14px calc(var(--sb) + 92px)}
+.view{position:fixed;inset:0;display:none;flex-direction:column;padding:calc(var(--st) + 10px) 14px calc(var(--sb) + 60px)}
 .view.on{display:flex}
 .view.blurred{background:rgba(8,10,14,.30);backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%)}
 
@@ -93,28 +93,71 @@ input,select,textarea{font:inherit;color:inherit}
 #rejectFlash.on{box-shadow:inset 0 0 0 6px rgba(255,90,95,.85)}
 
 /* tab bar */
-#tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 16px);display:flex;gap:4px;padding:5px;border-radius:999px;z-index:40}
-#tabs button{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:7px}
-#tabs button svg{width:17px;height:17px}
+#tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 10px);display:flex;gap:2px;padding:3px;border-radius:999px;z-index:40}
+#tabs button{padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:6px}
+#tabs button svg{width:15px;height:15px}
 #tabs button.on{background:rgba(255,255,255,.18);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
 
-/* ---------- etiquetado ---------- */
-#lbStage{flex:1;position:relative;margin:10px 0;border-radius:var(--r-lg);overflow:hidden;min-height:0}
-#lbCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
-#lbEmpty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:14px;padding:30px;line-height:1.5}
+/* ---------- etiquetado (pantalla completa) ---------- */
+#v-label{padding:0}
+#lbCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:none;background:#000}
+#v-label.reviewing #lbCanvas{display:block}
+.lbHead{position:absolute;top:calc(var(--st) + 12px);left:18px;right:12px;display:flex;align-items:flex-start;gap:8px;z-index:3;pointer-events:none}
+.lbHead > *{pointer-events:auto}
+.ttl{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.1;text-shadow:0 1px 14px rgba(0,0,0,.55)}
+.ttlsub{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.lbNav{display:flex;align-items:center;border-radius:999px;padding:2px;height:38px}
+.lbNav button{width:34px;height:34px;display:grid;place-items:center;border-radius:50%}
+.lbNav button svg{width:16px;height:16px}
+.lbNav span{font-size:13px;min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.rbtn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
+.rbtn svg{width:19px;height:19px}
+#lbHint{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 148px);padding:8px 14px;border-radius:999px;font-size:13px;white-space:nowrap;z-index:3;max-width:92vw;overflow:hidden;text-overflow:ellipsis;transition:background .3s}
+#lbHint.done{background:rgba(52,211,153,.35);border-color:rgba(52,211,153,.6)}
+.lbBar{position:absolute;left:0;right:0;bottom:calc(var(--sb) + 62px);display:flex;align-items:center;justify-content:space-between;padding:0 30px;z-index:3}
+.shutter{width:74px;height:74px;border-radius:50%;border:4px solid rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 4px 24px rgba(0,0,0,.35)}
+.shutter span{width:58px;height:58px;border-radius:50%;background:#fff;transition:transform .12s}
+.shutter:active span{transform:scale(.86)}
+.thumb{width:50px;height:50px;border-radius:14px;overflow:hidden;position:relative;padding:0}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb span{position:absolute;right:3px;bottom:3px;font-size:10px;font-weight:600;background:rgba(0,0,0,.65);border-radius:8px;padding:1px 5px}
+.zoomchip{width:50px;height:50px;border-radius:50%;font-size:14px;font-weight:600}
+.zoomchip.sm{width:40px;height:40px;font-size:12px}
+.slot{width:50px;height:50px}
+.done-btn{height:50px;padding:0 26px;border-radius:999px;background:rgba(255,255,255,.94);color:#111;font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+.done-btn svg{width:18px;height:18px}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .2s;z-index:70}
+#flash.on{opacity:.75;transition:none}
+
+/* selector de moneda */
+#picker{position:fixed;inset:0;z-index:45}
+#pkBack{position:absolute;inset:0;background:rgba(0,0,0,.08)}
+.pkSheet{position:absolute;left:12px;right:12px;bottom:calc(var(--sb) + 58px);border-radius:28px;padding:14px 14px 12px;animation:pop .18s ease}
+#picker.top .pkSheet{bottom:auto;top:calc(var(--st) + 64px)}
+.pkTitle{font-size:13px;color:var(--muted);text-align:center;margin:0 0 12px}
+#pkGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 8px}
+.coinbtn{display:flex;justify-content:center}
+.coinbtn i{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:15px;font-weight:700;color:#1a1a1a;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.45),0 4px 12px rgba(0,0,0,.25);transition:transform .1s}
+.coinbtn:active i{transform:scale(.9)}
+.coinbtn.on i{outline:3px solid #fff;outline-offset:3px}
+.pkRow{display:flex;gap:8px;margin-top:14px}
+.pkRow button{height:40px;border-radius:999px;font-size:13px;font-weight:500;flex:1}
+.pkRow .ic{flex:0 0 40px;font-size:20px;line-height:1}
+#pkReject{background:rgba(255,90,95,.22);color:#ffd0d1}
+#pkDelete{flex:0 0 auto;padding:0 14px}
+
+/* menú ⋯ */
+#lbMenu{position:fixed;inset:0;z-index:46}
+#lbMenuBack{position:absolute;inset:0}
+.menuCard{position:absolute;right:12px;top:calc(var(--st) + 60px);width:min(300px,86vw);border-radius:22px;padding:6px;animation:pop .18s ease}
+.menuCard button{width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;font-size:15px;text-align:left}
+.menuCard button:active{background:rgba(255,255,255,.12)}
+.menuCard button svg{width:19px;height:19px;flex:none}
+#lbStats{display:flex;flex-wrap:wrap;gap:6px 10px;padding:10px 14px 12px;border-top:1px solid rgba(255,255,255,.1);margin-top:4px;font-size:12px;color:var(--muted)}
+#lbStats span{display:flex;align-items:center;gap:5px}
+#lbStats span.low{color:#ffc35a}
+#lbStats i{width:8px;height:8px;border-radius:50%}
 .row{display:flex;gap:8px;align-items:center}
-.scroller{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
-.scroller::-webkit-scrollbar{display:none}
-.cls{flex:none;padding:9px 13px;border-radius:999px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px;background:var(--glass-2);border:1px solid var(--stroke-2)}
-.cls.on{background:rgba(255,255,255,.92);color:#111}
-.cls .sw{width:9px;height:9px;border-radius:50%}
-.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}
-.tool{height:54px;border-radius:var(--r-md);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;color:var(--muted)}
-.tool svg{width:19px;height:19px;color:#fff}
-.tool.on{background:rgba(78,168,255,.35);border-color:rgba(78,168,255,.6);color:#fff}
-.tool:disabled{opacity:.35}
-.lbpanel{border-radius:var(--r-lg);padding:10px}
-.stat{font-size:12px;color:var(--muted)}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent}
 input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:9px;background:rgba(255,255,255,.22)}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-9px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35)}
@@ -165,6 +208,7 @@ textarea{width:100%;min-height:150px;border-radius:12px;background:rgba(0,0,0,.2
   <div class="top glass">
     <h1>Contador de monedas<small id="sub">Sin modelo · cargalo en Ajustes</small></h1>
     <span class="chip glass-soft"><span id="dot" class="dot"></span><span id="fps">—</span></span>
+    <button class="zoomchip sm glass-soft hidden">1×</button>
     <button id="torch" class="iconbtn glass-soft hidden" aria-label="Linterna"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2h8l-1 6H9z"/><path d="M9 8v12a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V8"/><path d="M12 12v3"/></svg></button>
   </div>
   <div class="spacer"></div>
@@ -183,38 +227,50 @@ textarea{width:100%;min-height:150px;border-radius:12px;background:rgba(0,0,0,.2
 </section>
 
 <!-- ================= ETIQUETAR ================= -->
-<section id="v-label" class="view blurred">
-  <div class="top glass">
-    <h1>Etiquetar fotos<small id="lbInfo">0 fotos · 0 cajas</small></h1>
-    <button id="lbPrev" class="iconbtn glass-soft" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <span class="chip glass-soft" id="lbIdx">0 / 0</span>
-    <button id="lbNext" class="iconbtn glass-soft" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+<section id="v-label" class="view">
+  <canvas id="lbCanvas"></canvas>
+  <div class="lbHead">
+    <div style="flex:1"><div class="ttl">Etiquetar</div><div class="ttlsub" id="lbInfo">0 fotos</div></div>
+    <div class="lbNav glass hidden" id="lbNav"><button id="lbPrev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><span id="lbIdx"></span><button id="lbNext" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    <button class="rbtn glass" id="lbMenuBtn" aria-label="Más opciones"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
-  <div id="lbStage" class="glass">
-    <canvas id="lbCanvas"></canvas>
-    <div id="lbEmpty">Apuntá la cámara a la cinta y tocá <b>Capturar</b>, o subí fotos.<br>Después arrastrá sobre cada moneda para dibujar su caja<br>(o activá <b>Toque rápido</b> y tocá el centro de cada moneda).</div>
+  <div id="lbHint" class="glass">Encuadrá la cinta y capturá</div>
+  <div class="lbBar" id="lbLive">
+    <button class="thumb glass" id="lbThumb" aria-label="Ver fotos"><img id="lbThumbImg" alt=""><span id="lbThumbN"></span></button>
+    <button class="shutter" id="lbShutter" aria-label="Capturar"><span></span></button>
+    <div class="slot"><button class="zoomchip glass hidden">1×</button></div>
   </div>
-  <div class="lbpanel glass">
-    <div class="scroller" id="lbClasses"></div>
-    <div class="row" id="quickRow" style="padding:0 4px">
-      <span class="stat" style="white-space:nowrap">Tamaño caja</span>
-      <input type="range" id="quickSize" min="2" max="40" value="10">
-      <span class="val" id="quickVal">10%</span>
-    </div>
-    <div class="tools">
-      <button class="tool glass-soft" id="tCap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="4"/><path d="M4 7h3l2-3h6l2 3h3v13H4z"/></svg>Capturar</button>
-      <button class="tool glass-soft" id="tBurst"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ráfaga 1/s</button>
-      <button class="tool glass-soft" id="tUpload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg>Subir fotos</button>
-      <button class="tool glass-soft" id="tQuick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><rect x="4" y="4" width="16" height="16" rx="3"/></svg>Toque rápido</button>
-      <button class="tool glass-soft" id="tAuto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>Pre-etiquetar</button>
-      <button class="tool glass-soft" id="tDelBox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg>Borrar caja</button>
-      <button class="tool glass-soft" id="tDelImg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Borrar foto</button>
-      <button class="tool glass-soft" id="tExport" style="color:#fff;background:rgba(78,168,255,.35)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Exportar</button>
-    </div>
-    <div class="stat" id="lbClassStats" style="padding:8px 4px 0"></div>
+  <div class="lbBar hidden" id="lbReview">
+    <button class="rbtn glass" id="lbDel" aria-label="Borrar foto" style="width:50px;height:50px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+    <button class="done-btn" id="lbDone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Listo</button>
+    <button class="rbtn glass" id="lbRedo" aria-label="Volver a detectar" style="width:50px;height:50px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg></button>
   </div>
   <input type="file" id="fileImgs" accept="image/*" multiple hidden>
 </section>
+
+<div id="picker" class="hidden">
+  <div id="pkBack"></div>
+  <div class="pkSheet glass">
+    <p class="pkTitle">¿Qué moneda es?</p>
+    <div id="pkGrid"></div>
+    <div class="pkRow">
+      <button class="glass-soft" id="pkReject">No es moneda</button>
+      <button class="glass-soft ic" id="pkSmaller" aria-label="Achicar círculo">−</button>
+      <button class="glass-soft ic" id="pkBigger" aria-label="Agrandar círculo">+</button>
+      <button class="glass-soft" id="pkDelete">Borrar</button>
+    </div>
+  </div>
+</div>
+
+<div id="lbMenu" class="hidden">
+  <div id="lbMenuBack"></div>
+  <div class="menuCard glass">
+    <button id="mUpload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg>Subir fotos de la galería</button>
+    <button id="mExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Exportar dataset para entrenar</button>
+    <div id="lbStats"></div>
+  </div>
+</div>
+<div id="flash"></div>
 
 <!-- ================= AJUSTES ================= -->
 <section id="v-set" class="view blurred">
@@ -315,10 +371,11 @@ const DEFAULT_CLASSES_TXT = [
   '50_centavos | 50¢  | 0.50',
   '1_peso      | $1   | 1',
   '2_pesos     | $2   | 2',
+  '5_pesos     | $5   | 5',
   '10_pesos    | $10  | 10',
   'no_moneda   | Otro | 0 | otro'
 ].join('\n');
-const PALETTE = ['#d9a86c','#f0c35a','#c8d2dc','#9fb6c9','#ffd36e','#e7e2d6','#8fd3ff','#ff5a5f','#b28dff','#7ee0a1','#ff9f6b','#6be0d8'];
+const PALETTE = ['#d9a066','#f2c94c','#cfd8e0','#e9b44c','#f6d365','#b8c6d4','#ffb26b','#8fd3ff','#b28dff','#7ee0a1','#ff9f6b','#6be0d8'];
 
 function parseClasses(txt){
   const out = [];
@@ -339,6 +396,9 @@ const S = Object.assign({
   boxes: true, alert: true, backend: 'webgpu', facing: 'environment', camRes: '720',
   classesTxt: DEFAULT_CLASSES_TXT, quickSize: 10
 }, (() => { try { return JSON.parse(localStorage.getItem('monedas.settings') || '{}'); } catch { return {}; } })());
+if (!/^\s*5_pesos\b/m.test(S.classesTxt)){   // migración: agrega la moneda de $5
+  S.classesTxt = /^\s*10_pesos/m.test(S.classesTxt) ? S.classesTxt.replace(/^(\s*10_pesos)/m, '5_pesos     | $5   | 5\n$1') : S.classesTxt + '\n5_pesos | $5 | 5';
+}
 let CLASSES = parseClasses(S.classesTxt);
 function saveS(){ try { localStorage.setItem('monedas.settings', JSON.stringify(S)); } catch {} }
 
@@ -424,7 +484,7 @@ async function startCamera(){
   video.srcObject = stream; await video.play().catch(() => {});
   track = stream.getVideoTracks()[0];
   const caps = track.getCapabilities ? track.getCapabilities() : {};
-  $('#torch').classList.toggle('hidden', !caps.torch); torchOn = false; $('#torch').classList.remove('active');
+  $('#torch').classList.toggle('hidden', !caps.torch); refreshZoomUI(); torchOn = false; $('#torch').classList.remove('active');
 }
 $('#torch').onclick = async () => {
   try { torchOn = !torchOn; await track.applyConstraints({ advanced: [{ torch: torchOn }] }); $('#torch').classList.toggle('active', torchOn); }
@@ -636,7 +696,7 @@ function renderTiles(){
     el.innerHTML = `<div class="n">0</div><div class="d"><span class="sw" style="background:${c.color}"></span>${c.short}</div>`;
     g.appendChild(el);
   });
-  g.style.gridTemplateColumns = `repeat(${CLASSES.length > 8 ? 4 : Math.min(4, Math.ceil(CLASSES.length / 2))},1fr)`;
+  g.style.gridTemplateColumns = `repeat(${CLASSES.length > 8 ? 5 : Math.min(4, Math.ceil(CLASSES.length / 2))},1fr)`;
   renderCounts();
 }
 function renderCounts(bump){
@@ -709,156 +769,345 @@ $('#play').onclick = () => {
 };
 $('#reset').onclick = () => { resetCounts(); toast('Conteo reiniciado'); };
 
+/* ---- detección clásica de monedas (sin modelo): contraste local + transformada de distancia ---- */
+function cvBoxBlur(src, W, H, r){
+  const I = new Float64Array((W + 1) * (H + 1));
+  for (let y = 0; y < H; y++){ let row = 0; for (let x = 0; x < W; x++){ row += src[y * W + x]; I[(y + 1) * (W + 1) + x + 1] = I[y * (W + 1) + x + 1] + row; } }
+  const out = new Float32Array(W * H);
+  for (let y = 0; y < H; y++){ const y0 = Math.max(0, y - r), y1 = Math.min(H, y + r + 1);
+    for (let x = 0; x < W; x++){ const x0 = Math.max(0, x - r), x1 = Math.min(W, x + r + 1);
+      out[y * W + x] = (I[y1 * (W + 1) + x1] - I[y0 * (W + 1) + x1] - I[y1 * (W + 1) + x0] + I[y0 * (W + 1) + x0]) / ((x1 - x0) * (y1 - y0)); } }
+  return out;
+}
+function cvMorph(m, W, H, r, dil){
+  const t = new Uint8Array(W * H), o = new Uint8Array(W * H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++){
+    let v = dil ? 0 : 1; for (let k = -r; k <= r; k++){ const xx = x + k; const p = xx < 0 || xx >= W ? (dil ? 0 : 1) : m[y * W + xx]; if (dil ? p : !p){ v = dil ? 1 : 0; break; } } t[y * W + x] = v; }
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++){
+    let v = dil ? 0 : 1; for (let k = -r; k <= r; k++){ const yy = y + k; const p = yy < 0 || yy >= H ? (dil ? 0 : 1) : t[yy * W + x]; if (dil ? p : !p){ v = dil ? 1 : 0; break; } } o[y * W + x] = v; }
+  return o;
+}
+function cvFillHoles(m, W, H){
+  const seen = new Uint8Array(W * H), st = [];
+  const push = i => { if (!m[i] && !seen[i]){ seen[i] = 1; st.push(i); } };
+  for (let x = 0; x < W; x++){ push(x); push((H - 1) * W + x); }
+  for (let y = 0; y < H; y++){ push(y * W); push(y * W + W - 1); }
+  while (st.length){ const i = st.pop(), x = i % W, y = (i / W) | 0;
+    if (x > 0) push(i - 1); if (x < W - 1) push(i + 1); if (y > 0) push(i - W); if (y < H - 1) push(i + W); }
+  for (let i = 0; i < W * H; i++) if (!m[i] && !seen[i]) m[i] = 1;
+}
+function cvDist(m, W, H){
+  const INF = 1e9, d = new Float32Array(W * H), S2 = Math.SQRT2;
+  for (let i = 0; i < W * H; i++) d[i] = m[i] ? INF : 0;
+  const g = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? 0 : d[y * W + x];
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++){ const i = y * W + x; if (!d[i]) continue;
+    d[i] = Math.min(d[i], g(x - 1, y) + 1, g(x, y - 1) + 1, g(x - 1, y - 1) + S2, g(x + 1, y - 1) + S2); }
+  for (let y = H - 1; y >= 0; y--) for (let x = W - 1; x >= 0; x--){ const i = y * W + x; if (!d[i]) continue;
+    d[i] = Math.min(d[i], g(x + 1, y) + 1, g(x, y + 1) + 1, g(x + 1, y + 1) + S2, g(x - 1, y + 1) + S2); }
+  return d;
+}
+/** rgba: Uint8ClampedArray W*H*4. Devuelve círculos {x,y,r} en píxeles de esa imagen. */
+function cvCircles(rgba, W, H){
+  const N = W * H, gray = new Float32Array(N), sat = new Float32Array(N);
+  for (let i = 0, j = 0; i < N; i++, j += 4){
+    const r = rgba[j], g = rgba[j + 1], b = rgba[j + 2], mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+    gray[i] = 0.299 * r + 0.587 * g + 0.114 * b; sat[i] = mx ? (mx - mn) / mx * 255 : 0;
+  }
+  const L = Math.max(W, H), R = Math.max(6, Math.round(L * 0.08));
+  const gB = cvBoxBlur(gray, W, H, R), sB = cvBoxBlur(sat, W, H, R);
+  let sc = new Float32Array(N);
+  for (let i = 0; i < N; i++) sc[i] = Math.abs(gray[i] - gB[i]) + 0.6 * Math.max(0, sat[i] - sB[i]);
+  sc = cvBoxBlur(sc, W, H, 1);
+  // umbral de Otsu
+  const hist = new Float64Array(256); for (let i = 0; i < N; i++) hist[Math.min(255, sc[i] | 0)]++;
+  let sum = 0; for (let t = 0; t < 256; t++) sum += t * hist[t];
+  let wB = 0, sumB = 0, best = 0, th = 30;
+  for (let t = 0; t < 256; t++){ wB += hist[t]; if (!wB) continue; const wF = N - wB; if (!wF) break; sumB += t * hist[t];
+    const mB = sumB / wB, mF = (sum - sumB) / wF, v = wB * wF * (mB - mF) * (mB - mF); if (v > best){ best = v; th = t; } }
+  th = Math.max(th, 22);
+  let m = new Uint8Array(N); for (let i = 0; i < N; i++) m[i] = sc[i] > th ? 1 : 0;
+  m = cvMorph(cvMorph(m, W, H, 2, true), W, H, 2, false);   // cierre: rellena brillos internos
+  m = cvMorph(cvMorph(m, W, H, 1, false), W, H, 1, true);   // apertura: borra rayas de la cinta
+  cvFillHoles(m, W, H);
+  const d = cvDist(m, W, H);
+  const minR = Math.max(3, L * 0.012), maxR = L * 0.22, cand = [];
+  for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++){
+    const i = y * W + x, v = d[i]; if (v < minR || v > maxR) continue;
+    if (v >= d[i - 1] && v >= d[i + 1] && v >= d[i - W] && v >= d[i + W] && v >= d[i - W - 1] && v >= d[i - W + 1] && v >= d[i + W - 1] && v >= d[i + W + 1]) cand.push({ x, y, r: v });
+  }
+  cand.sort((a, b) => b.r - a.r);
+  const acc = [];
+  for (const c of cand){
+    if (acc.some(a => Math.hypot(a.x - c.x, a.y - c.y) < Math.max(a.r, c.r))) continue;
+    // las monedas son "islas" redondas: un anillo a 1,4·r casi no debe tocar primer plano
+    let on = 0; const n = 36;
+    for (let k = 0; k < n; k++){ const a = k / n * 2 * Math.PI, xx = Math.round(c.x + Math.cos(a) * c.r * 1.4), yy = Math.round(c.y + Math.sin(a) * c.r * 1.4);
+      if (xx >= 0 && yy >= 0 && xx < W && yy < H && m[yy * W + xx]) on++; }
+    if (on / n > 0.42) continue;
+    acc.push(c);
+  }
+  if (!acc.length) return [];
+  const rs = acc.map(a => a.r).sort((a, b) => a - b), med = rs[rs.length >> 1];
+  return acc.filter(a => a.r > med * 0.5 && a.r < med * 2.2).map(a => ({ x: a.x + 0.5, y: a.y + 0.5, r: a.r * 1.1 + 1 }));
+}
+
 /* =====================================================================
-   ETIQUETADOR
+   ETIQUETADOR (pantalla completa: capturar → círculos automáticos → tocar y elegir moneda)
    ===================================================================== */
-const LB = { imgs: [], idx: -1, bmp: null, sel: -1, cls: 0, quick: false, xf: null, drag: null, burst: null };
+const LB = { imgs: [], idx: -1, bmp: null, mode: 'live', sel: -1, newBox: -1, lastR: 0,
+             zoom: 1, panX: 0, panY: 0, ptrs: new Map(), g: null, thumbURL: null };
 const lbc = $('#lbCanvas'), lctx = lbc.getContext('2d');
 
-async function lbLoadAll(){ LB.imgs = (await DB.all('images')).sort((a, b) => a.id - b.id); if (LB.idx >= LB.imgs.length || LB.idx < 0) LB.idx = LB.imgs.length - 1; await lbShow(); }
-function lbCur(){ return LB.imgs[LB.idx]; }
-async function lbShow(){
-  const r = lbCur(); LB.sel = -1;
-  $('#lbEmpty').classList.toggle('hidden', !!r);
-  LB.bmp = r ? await createImageBitmap(r.blob) : null;
+async function lbLoadAll(){
+  LB.imgs = (await DB.all('images')).sort((a, b) => a.id - b.id);
+  LB.idx = LB.imgs.length - 1; lbSetMode('live'); updateThumb();
+}
+function lbCur(){ return LB.mode === 'review' ? LB.imgs[LB.idx] : null; }
+async function lbShow(){ if (LB.mode === 'review' && LB.imgs[LB.idx]) await lbOpen(LB.idx); else lbSetMode('live'); updateThumb(); }
+
+function lbSetMode(m){
+  LB.mode = m;
+  $('#v-label').classList.toggle('reviewing', m === 'review');
+  $('#lbLive').classList.toggle('hidden', m !== 'live');
+  $('#lbReview').classList.toggle('hidden', m !== 'review');
+  $('#lbNav').classList.toggle('hidden', m !== 'review' || LB.imgs.length < 2);
+  closePicker(false);
+  if (m === 'live'){ LB.bmp = null; }
   lbInfo(); lbDraw();
 }
-function lbInfo(){
-  const n = LB.imgs.length, nb = LB.imgs.reduce((s, r) => s + r.boxes.length, 0);
-  $('#lbIdx').textContent = n ? `${LB.idx + 1} / ${n}` : '0 / 0';
-  $('#lbInfo').textContent = `${n} fotos · ${nb} cajas`;
-  const per = CLASSES.map(() => 0); LB.imgs.forEach(r => r.boxes.forEach(b => { const i = CLASSES.findIndex(c => c.key === b.cls); if (i >= 0) per[i]++; }));
-  $('#lbClassStats').innerHTML = CLASSES.map((c, i) => `<span style="color:${per[i] < 30 ? '#ffb020' : 'inherit'}">${c.short}: ${per[i]}</span>`).join(' · ') + '<br>Ideal: 50–150 ejemplos por clase, ambas caras y distintas series.';
+async function lbOpen(i){
+  if (i < 0 || i >= LB.imgs.length) return;
+  LB.idx = i; LB.bmp = await createImageBitmap(LB.imgs[i].blob);
+  LB.zoom = 1; LB.panX = LB.panY = 0; LB.sel = -1;
+  lbSetMode('review'); lbResize();
 }
-function lbResize(){ const d = devicePixelRatio || 1, r = lbc.getBoundingClientRect(); lbc.width = r.width * d; lbc.height = r.height * d; lctx.setTransform(d, 0, 0, d, 0, 0); lbDraw(); }
+
+function lbInfo(){
+  const n = LB.imgs.length, r = lbCur(), hint = $('#lbHint');
+  let tot = 0; const per = CLASSES.map(() => 0);
+  LB.imgs.forEach(x => x.boxes.forEach(b => { const k = CLASSES.findIndex(c => c.key === b.cls); if (k >= 0){ per[k]++; tot++; } }));
+  if (r){
+    const pend = r.boxes.filter(b => !b.cls).length;
+    $('#lbInfo').textContent = `Foto ${LB.idx + 1} de ${n}`;
+    hint.textContent = !r.boxes.length ? 'No vi monedas · tocá sobre una para marcarla'
+      : pend ? `Tocá cada círculo y elegí la moneda · faltan ${pend}` : '✓ Listo · capturá la siguiente';
+    hint.classList.toggle('done', r.boxes.length > 0 && !pend);
+  } else {
+    $('#lbInfo').textContent = `${n} foto${n === 1 ? '' : 's'} · ${tot} moneda${tot === 1 ? '' : 's'}`;
+    hint.textContent = 'Encuadrá la cinta y capturá'; hint.classList.remove('done');
+  }
+  $('#lbIdx').textContent = n ? `${LB.idx + 1}/${n}` : '';
+  $('#lbStats').innerHTML = CLASSES.map((c, i) => `<span class="${per[i] < 30 ? 'low' : ''}"><i style="background:${c.color}"></i>${c.short} ${per[i]}</span>`).join('');
+}
+function updateThumb(){
+  const r = LB.imgs[LB.imgs.length - 1], img = $('#lbThumbImg');
+  if (LB.thumbURL) URL.revokeObjectURL(LB.thumbURL);
+  LB.thumbURL = r ? URL.createObjectURL(r.blob) : null;
+  img.src = LB.thumbURL || ''; img.classList.toggle('hidden', !r);
+  $('#lbThumbN').textContent = LB.imgs.length || '';
+  $('#lbThumb').classList.toggle('empty', !r);
+}
+
+/* ---- dibujo y transformaciones ---- */
+function lbResize(){ const d = devicePixelRatio || 1; lbc.width = innerWidth * d; lbc.height = innerHeight * d; lctx.setTransform(d, 0, 0, d, 0, 0); lbDraw(); }
 addEventListener('resize', lbResize);
+function lbXf(){
+  const r = LB.imgs[LB.idx], W = innerWidth, H = innerHeight, s = Math.min(W / r.w, H / r.h) * LB.zoom;
+  return { s, ox: W / 2 + LB.panX - r.w * s / 2, oy: H / 2 + LB.panY - r.h * s / 2 };
+}
+function clampPan(){
+  const r = LB.imgs[LB.idx]; if (!r) return; const s = Math.min(innerWidth / r.w, innerHeight / r.h) * LB.zoom;
+  const mx = Math.max(0, (r.w * s - innerWidth) / 2 + 40), my = Math.max(0, (r.h * s - innerHeight) / 2 + 120);
+  LB.panX = clamp(LB.panX, -mx, mx); LB.panY = clamp(LB.panY, -my, my);
+}
+const circ = b => ({ cx: b.x + b.w / 2, cy: b.y + b.h / 2, r: Math.max(b.w, b.h) / 2 });
 function lbDraw(){
-  const r = lbc.getBoundingClientRect(); lctx.clearRect(0, 0, r.width, r.height);
+  lctx.clearRect(0, 0, innerWidth, innerHeight);
   const rec = lbCur(); if (!rec || !LB.bmp) return;
-  const s = Math.min(r.width / rec.w, r.height / rec.h), ox = (r.width - rec.w * s) / 2, oy = (r.height - rec.h * s) / 2;
-  LB.xf = { s, ox, oy };
+  const { s, ox, oy } = lbXf();
   lctx.drawImage(LB.bmp, ox, oy, rec.w * s, rec.h * s);
-  lctx.font = '600 11px -apple-system,system-ui,sans-serif';
-  const boxes = rec.boxes.slice(); if (LB.drag && LB.drag.mode === 'new') boxes.push(Object.assign({ cls: CLASSES[LB.cls].key, tmp: true }, LB.drag.box));
-  boxes.forEach((b, i) => {
-    const c = CLASSES.find(c => c.key === b.cls) || { color: '#fff', short: b.cls };
-    const x = ox + b.x * s, y = oy + b.y * s, w = b.w * s, h = b.h * s;
-    lctx.lineWidth = i === LB.sel ? 3.5 : 2; lctx.strokeStyle = c.color;
-    if (i === LB.sel){ lctx.fillStyle = 'rgba(255,255,255,.15)'; lctx.fillRect(x, y, w, h); }
-    lctx.strokeRect(x, y, w, h);
-    const tw = lctx.measureText(c.short).width + 10;
-    lctx.fillStyle = c.color; lctx.fillRect(x, y - 16, tw, 16); lctx.fillStyle = '#111'; lctx.fillText(c.short, x + 5, y - 4);
+  lctx.font = '700 12px -apple-system,system-ui,sans-serif'; lctx.textAlign = 'center'; lctx.textBaseline = 'middle';
+  rec.boxes.forEach((b, i) => {
+    const c = circ(b), x = ox + c.cx * s, y = oy + c.cy * s, rr = c.r * s, cls = CLASSES.find(k => k.key === b.cls), sel = i === LB.sel;
+    lctx.save();
+    lctx.beginPath(); lctx.arc(x, y, rr, 0, Math.PI * 2);
+    if (cls){
+      lctx.fillStyle = cls.color + '33'; lctx.fill();
+      lctx.lineWidth = sel ? 4 : 2.5; lctx.strokeStyle = cls.color; lctx.shadowColor = cls.color; lctx.shadowBlur = sel ? 14 : 6; lctx.stroke();
+      lctx.shadowBlur = 0;
+      const tw = lctx.measureText(cls.short).width + 12, ty = y - rr - 11;
+      lctx.fillStyle = cls.color; lctx.beginPath(); lctx.roundRect ? lctx.roundRect(x - tw / 2, ty - 9, tw, 18, 9) : lctx.rect(x - tw / 2, ty - 9, tw, 18); lctx.fill();
+      lctx.fillStyle = cls.reject ? '#fff' : '#161616'; lctx.fillText(cls.short, x, ty + 0.5);
+    } else {
+      lctx.fillStyle = 'rgba(255,255,255,.10)'; lctx.fill();
+      lctx.setLineDash([5, 4]); lctx.lineWidth = sel ? 3.5 : 2; lctx.strokeStyle = '#fff'; lctx.shadowColor = 'rgba(0,0,0,.6)'; lctx.shadowBlur = 4; lctx.stroke();
+      lctx.setLineDash([]); lctx.shadowBlur = 0; lctx.fillStyle = '#fff'; lctx.font = '700 13px -apple-system,system-ui,sans-serif';
+      if (rr > 9) lctx.fillText('?', x, y + 0.5);
+      lctx.font = '700 12px -apple-system,system-ui,sans-serif';
+    }
+    lctx.restore();
   });
 }
-function lbToImg(e){ const r = lbc.getBoundingClientRect(), { s, ox, oy } = LB.xf; return { x: (e.clientX - r.left - ox) / s, y: (e.clientY - r.top - oy) / s }; }
-function lbHit(p){
-  const rec = lbCur(); let best = -1, ba = Infinity;
-  rec.boxes.forEach((b, i) => { if (p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h && b.w * b.h < ba){ ba = b.w * b.h; best = i; } });
-  return best;
-}
-let saveT;
-function lbSave(){ const rec = lbCur(); if (!rec) return; clearTimeout(saveT); saveT = setTimeout(() => DB.put('images', rec), 250); lbInfo(); }
 
+/* ---- gestos: tocar = elegir moneda / marcar · arrastrar = mover · pellizcar = zoom ---- */
+const toImg = (sx, sy) => { const { s, ox, oy } = lbXf(); return { x: (sx - ox) / s, y: (sy - oy) / s }; };
 lbc.addEventListener('pointerdown', e => {
-  const rec = lbCur(); if (!rec || !LB.xf) return; lbc.setPointerCapture(e.pointerId);
-  const p = lbToImg(e), hit = lbHit(p);
-  if (hit >= 0){ LB.sel = hit; const b = rec.boxes[hit]; LB.drag = { mode: 'move', start: p, orig: { ...b } }; lbDraw(); return; }
-  if (LB.quick){
-    const sz = Math.min(rec.w, rec.h) * S.quickSize / 100;
-    const b = { x: clamp(p.x - sz / 2, 0, rec.w - sz), y: clamp(p.y - sz / 2, 0, rec.h - sz), w: sz, h: sz, cls: CLASSES[LB.cls].key };
-    rec.boxes.push(b); LB.sel = rec.boxes.length - 1; lbSave(); lbDraw(); LB.drag = null; return;
-  }
-  LB.sel = -1; LB.drag = { mode: 'new', start: p, box: { x: p.x, y: p.y, w: 0, h: 0 } }; lbDraw();
+  if (!lbCur()) return; lbc.setPointerCapture(e.pointerId);
+  LB.ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (LB.ptrs.size === 1) LB.g = { type: 'tap', sx: e.clientX, sy: e.clientY, px: LB.panX, py: LB.panY };
+  else if (LB.ptrs.size === 2){ const [a, b] = [...LB.ptrs.values()];
+    LB.g = { type: 'pinch', d0: Math.hypot(a.x - b.x, a.y - b.y), z0: LB.zoom, mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, px: LB.panX, py: LB.panY }; }
 });
 lbc.addEventListener('pointermove', e => {
-  if (!LB.drag) return; const rec = lbCur(), p = lbToImg(e), d = LB.drag;
-  if (d.mode === 'new'){
-    const x1 = clamp(Math.min(d.start.x, p.x), 0, rec.w), y1 = clamp(Math.min(d.start.y, p.y), 0, rec.h);
-    const x2 = clamp(Math.max(d.start.x, p.x), 0, rec.w), y2 = clamp(Math.max(d.start.y, p.y), 0, rec.h);
-    d.box = { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
-  } else {
-    const b = rec.boxes[LB.sel]; b.x = clamp(d.orig.x + p.x - d.start.x, 0, rec.w - b.w); b.y = clamp(d.orig.y + p.y - d.start.y, 0, rec.h - b.h); d.moved = true;
+  if (!LB.ptrs.has(e.pointerId)) return; LB.ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  const g = LB.g; if (!g) return;
+  if (g.type === 'pinch' && LB.ptrs.size >= 2){
+    const [a, b] = [...LB.ptrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y), m = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+    const z = clamp(g.z0 * d / g.d0, 1, 8), W2 = innerWidth / 2, H2 = innerHeight / 2;
+    LB.panX = m.x - W2 - (g.mx - W2 - g.px) * z / g.z0; LB.panY = m.y - H2 - (g.my - H2 - g.py) * z / g.z0; LB.zoom = z;
+    if (z < 1.03){ LB.zoom = 1; LB.panX = LB.panY = 0; }
+    clampPan(); lbDraw();
+  } else if (g.type === 'tap' || g.type === 'pan'){
+    const dx = e.clientX - g.sx, dy = e.clientY - g.sy;
+    if (g.type === 'tap' && Math.hypot(dx, dy) > 10) g.type = 'pan';
+    if (g.type === 'pan' && LB.zoom > 1){ LB.panX = g.px + dx; LB.panY = g.py + dy; clampPan(); lbDraw(); }
   }
-  lbDraw();
 });
-lbc.addEventListener('pointerup', () => {
-  const d = LB.drag, rec = lbCur(); LB.drag = null; if (!d || !rec) return;
-  if (d.mode === 'new'){
-    if (d.box.w * LB.xf.s > 8 && d.box.h * LB.xf.s > 8){
-      rec.boxes.push({ ...d.box, cls: CLASSES[LB.cls].key }); LB.sel = rec.boxes.length - 1;
-      // el toque rápido aprende el tamaño de la última caja dibujada
-      S.quickSize = clamp(Math.round(Math.max(d.box.w, d.box.h) / Math.min(rec.w, rec.h) * 100), 2, 40); syncQuick(); saveS();
-      lbSave();
-    }
-  } else if (d.moved) lbSave();
-  lbDraw();
-});
-
-function renderLbClasses(){
-  const el = $('#lbClasses'); el.innerHTML = '';
-  if (LB.cls >= CLASSES.length) LB.cls = 0;
-  CLASSES.forEach((c, i) => {
-    const b = document.createElement('button'); b.className = 'cls' + (i === LB.cls ? ' on' : '');
-    b.innerHTML = `<span class="sw" style="background:${c.color}"></span>${c.short}`;
-    b.onclick = () => {
-      LB.cls = i; renderLbClasses();
-      const rec = lbCur(); if (rec && LB.sel >= 0){ rec.boxes[LB.sel].cls = c.key; lbSave(); lbDraw(); }
-    };
-    el.appendChild(b);
-  });
+function ptrEnd(e, cancel){
+  if (!LB.ptrs.has(e.pointerId)) return; LB.ptrs.delete(e.pointerId);
+  const g = LB.g;
+  if (!cancel && g && g.type === 'tap' && LB.ptrs.size === 0) lbTap(e.clientX, e.clientY);
+  if (LB.ptrs.size === 0) LB.g = null; else if (g && g.type === 'pinch') LB.g = { type: 'none' };
 }
-function syncQuick(){ $('#quickSize').value = S.quickSize; $('#quickVal').textContent = S.quickSize + '%'; }
-$('#quickSize').oninput = e => { S.quickSize = +e.target.value; syncQuick(); saveS(); };
-$('#tQuick').onclick = () => { LB.quick = !LB.quick; $('#tQuick').classList.toggle('on', LB.quick); };
+lbc.addEventListener('pointerup', e => ptrEnd(e, false));
+lbc.addEventListener('pointercancel', e => ptrEnd(e, true));
+
+function lbTap(sx, sy){
+  const rec = lbCur(); if (!rec) return; const { s } = lbXf(), p = toImg(sx, sy);
+  let hit = -1, bd = Infinity;
+  rec.boxes.forEach((b, i) => { const c = circ(b), d = Math.hypot(p.x - c.cx, p.y - c.cy); if (d <= Math.max(c.r * 1.15, 22 / s) && d < bd){ bd = d; hit = i; } });
+  if (hit >= 0){ openPicker(hit, false); return; }
+  if (p.x < 0 || p.y < 0 || p.x > rec.w || p.y > rec.h) return;
+  // tocar un lugar vacío marca una moneda nueva con el tamaño típico de esta foto
+  const rs = rec.boxes.map(b => circ(b).r).sort((a, b) => a - b);
+  const r = rs.length ? rs[rs.length >> 1] : (LB.lastR || Math.min(rec.w, rec.h) * 0.05);
+  rec.boxes.push({ x: p.x - r, y: p.y - r, w: 2 * r, h: 2 * r, cls: null });
+  openPicker(rec.boxes.length - 1, true);
+}
+
+/* ---- selector de moneda ---- */
+function renderLbClasses(){
+  const g = $('#pkGrid'); g.innerHTML = '';
+  CLASSES.forEach((c, i) => {
+    if (c.reject) return;
+    const b = document.createElement('button'); b.className = 'coinbtn'; b.dataset.i = i;
+    b.innerHTML = `<i style="background:radial-gradient(circle at 35% 30%,#fff8 0,#fff0 45%),${c.color}">${c.short}</i>`;
+    b.onclick = () => pickClass(i); g.appendChild(b);
+  });
+  const rej = CLASSES.findIndex(c => c.reject);
+  $('#pkReject').classList.toggle('hidden', rej < 0); $('#pkReject').onclick = () => pickClass(rej);
+}
+function openPicker(i, isNew){
+  const rec = lbCur(); LB.sel = i; LB.newBox = isNew ? i : -1;
+  const c = circ(rec.boxes[i]), { s, oy } = lbXf(), y = oy + c.cy * s;
+  $('#picker').classList.toggle('top', y > innerHeight * 0.48);
+  $$('#pkGrid .coinbtn').forEach(b => b.classList.toggle('on', CLASSES[+b.dataset.i].key === rec.boxes[i].cls));
+  $('#picker').classList.remove('hidden'); lbDraw();
+}
+function closePicker(keep){
+  const rec = lbCur();
+  if (!keep && rec && LB.newBox >= 0 && rec.boxes[LB.newBox] && !rec.boxes[LB.newBox].cls) rec.boxes.splice(LB.newBox, 1);
+  LB.newBox = -1; LB.sel = -1; $('#picker').classList.add('hidden'); lbDraw(); lbInfo();
+}
+function pickClass(ci){
+  const rec = lbCur(); if (!rec || LB.sel < 0) return;
+  rec.boxes[LB.sel].cls = CLASSES[ci].key; LB.lastR = circ(rec.boxes[LB.sel]).r;
+  lbSave(); closePicker(true);
+}
+function resizeSel(f){
+  const rec = lbCur(); if (!rec || LB.sel < 0) return; const b = rec.boxes[LB.sel], c = circ(b), r = clamp(c.r * f, 3, Math.min(rec.w, rec.h) / 2);
+  Object.assign(b, { x: c.cx - r, y: c.cy - r, w: 2 * r, h: 2 * r }); lbSave(); lbDraw();
+}
+$('#pkBack').onclick = () => closePicker(false);
+$('#pkSmaller').onclick = () => resizeSel(0.9);
+$('#pkBigger').onclick = () => resizeSel(1.1);
+$('#pkDelete').onclick = () => { const rec = lbCur(); if (rec && LB.sel >= 0){ rec.boxes.splice(LB.sel, 1); LB.newBox = -1; lbSave(); } closePicker(true); };
+
+let saveT;
+function lbSave(){ const rec = LB.imgs[LB.idx]; if (!rec) return; clearTimeout(saveT); saveT = setTimeout(() => DB.put('images', rec), 200); lbInfo(); }
+
+/* ---- detección automática de monedas en la foto ---- */
+async function autoDetect(rec, keepLabeled){
+  const bmp = await createImageBitmap(rec.blob);
+  let found = [];
+  if (M.session){
+    const dets = await detect(bmp, rec.w, rec.h, Math.max(0.3, S.thr - 0.15));
+    found = dets.map(d => { const r = Math.max(d.w, d.h) / 2; return { x: d.cx - r, y: d.cy - r, w: 2 * r, h: 2 * r, cls: CLASSES[d.cls].key }; });
+  }
+  if (!found.length){
+    const k = Math.min(1, 400 / Math.max(rec.w, rec.h)), W = Math.round(rec.w * k), H = Math.round(rec.h * k);
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const cx = c.getContext('2d', { willReadFrequently: true }); cx.drawImage(bmp, 0, 0, W, H);
+    found = cvCircles(cx.getImageData(0, 0, W, H).data, W, H).map(o => { const r = o.r / k; return { x: o.x / k - r, y: o.y / k - r, w: 2 * r, h: 2 * r, cls: null }; });
+  }
+  const kept = keepLabeled ? rec.boxes.filter(b => b.cls) : [];
+  const ov = (a, b) => { const A = circ(a), B = circ(b); return Math.hypot(A.cx - B.cx, A.cy - B.cy) < Math.max(A.r, B.r) * 0.7; };
+  rec.boxes = kept.concat(found.filter(f => !kept.some(k => ov(k, f))));
+  await DB.put('images', rec);
+}
 
 async function addImage(source, w, h){
   const max = 1280, s = Math.min(1, max / Math.max(w, h)), W = Math.round(w * s), H = Math.round(h * s);
   const c = document.createElement('canvas'); c.width = W; c.height = H; c.getContext('2d').drawImage(source, 0, 0, W, H);
-  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.9));
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.92));
   const rec = { id: Date.now() * 1000 + Math.floor(Math.random() * 1000), blob, w: W, h: H, boxes: [] };
-  await DB.put('images', rec); LB.imgs.push(rec); LB.idx = LB.imgs.length - 1;
-  return rec;
+  await autoDetect(rec, false);
+  LB.imgs.push(rec); return LB.imgs.length - 1;
 }
-async function captureFrame(){
+
+$('#lbShutter').onclick = async () => {
   if (!video.videoWidth){ toast('La cámara no está activa'); return; }
-  await addImage(video, video.videoWidth, video.videoHeight);
-  if (M.session && LB.autoOnCapture) await prelabel(true);
-  await lbShow();
-}
-$('#tCap').onclick = async () => { await captureFrame(); toast('Foto capturada'); };
-$('#tBurst').onclick = () => {
-  if (LB.burst){ clearInterval(LB.burst); LB.burst = null; $('#tBurst').classList.remove('on'); toast('Ráfaga detenida'); return; }
-  $('#tBurst').classList.add('on'); toast('Capturando 1 foto por segundo…');
-  LB.burst = setInterval(() => captureFrame(), 1000);
+  const f = $('#flash'); f.classList.add('on'); setTimeout(() => f.classList.remove('on'), 120);
+  try { const i = await addImage(video, video.videoWidth, video.videoHeight); updateThumb(); await lbOpen(i); }
+  catch (e){ console.error(e); toast('No se pudo capturar: ' + e.message); }
 };
-$('#tUpload').onclick = () => $('#fileImgs').click();
+$('#lbThumb').onclick = () => { if (LB.imgs.length) lbOpen(LB.imgs.length - 1); else toast('Todavía no hay fotos'); };
+$('#lbDone').onclick = () => { lbSetMode('live'); updateThumb(); };
+$('#lbRedo').onclick = async () => { const rec = lbCur(); if (!rec) return; await autoDetect(rec, true); lbInfo(); lbDraw(); toast('Detección repetida'); };
+$('#lbDel').onclick = async () => {
+  const rec = lbCur(); if (!rec || !confirm('¿Borrar esta foto?')) return;
+  await DB.del('images', rec.id); LB.imgs.splice(LB.idx, 1); LB.idx = LB.imgs.length - 1; updateThumb(); lbSetMode('live'); toast('Foto borrada');
+};
+$('#lbPrev').onclick = () => { if (LB.idx > 0) lbOpen(LB.idx - 1); };
+$('#lbNext').onclick = () => { if (LB.idx < LB.imgs.length - 1) lbOpen(LB.idx + 1); };
+
+/* ---- menú ⋯ ---- */
+$('#lbMenuBtn').onclick = () => { lbInfo(); $('#lbMenu').classList.toggle('hidden'); };
+$('#lbMenuBack').onclick = () => $('#lbMenu').classList.add('hidden');
+$('#mUpload').onclick = () => { $('#lbMenu').classList.add('hidden'); $('#fileImgs').click(); };
+$('#mExport').onclick = () => { $('#lbMenu').classList.add('hidden'); exportDataset().catch(e => { console.error(e); toast('Error exportando: ' + e.message); }); };
 $('#fileImgs').onchange = async e => {
-  const files = [...e.target.files]; e.target.value = ''; let n = 0;
-  for (const f of files){ try { const bmp = await createImageBitmap(f); await addImage(bmp, bmp.width, bmp.height); n++; } catch (err){ console.warn(err); } }
-  await lbShow(); toast(`${n} foto${n === 1 ? '' : 's'} agregada${n === 1 ? '' : 's'}`);
+  const files = [...e.target.files]; e.target.value = ''; let first = -1;
+  toast(`Procesando ${files.length} foto${files.length === 1 ? '' : 's'}…`, 8000);
+  for (const f of files){ try { const bmp = await createImageBitmap(f); const i = await addImage(bmp, bmp.width, bmp.height); if (first < 0) first = i; } catch (err){ console.warn(err); } }
+  updateThumb(); if (first >= 0){ await lbOpen(first); toast('Fotos agregadas'); }
 };
-async function prelabel(silent){
-  const rec = lbCur(); if (!rec) return;
-  if (!M.session){ toast('Cargá un modelo para pre-etiquetar'); return; }
-  const bmp = await createImageBitmap(rec.blob);
-  const dets = await detect(bmp, rec.w, rec.h, Math.max(0.3, S.thr - 0.1));
-  let added = 0;
-  for (const d of dets){
-    const nb = { x1: d.x1, y1: d.y1, x2: d.x2, y2: d.y2 };
-    if (rec.boxes.some(b => iou(nb, { x1: b.x, y1: b.y, x2: b.x + b.w, y2: b.y + b.h }) > 0.5)) continue;
-    rec.boxes.push({ x: clamp(d.x1, 0, rec.w), y: clamp(d.y1, 0, rec.h), w: Math.min(d.w, rec.w), h: Math.min(d.h, rec.h), cls: CLASSES[d.cls].key }); added++;
-  }
-  await DB.put('images', rec); if (!silent) toast(`${added} cajas propuestas · revisalas`);
-  lbInfo(); lbDraw();
+
+/* ---- zoom óptico de la cámara (si el teléfono lo permite) ---- */
+const ZOOMS = [1, 1.5, 2, 3, 4];
+function zoomCaps(){ try { const c = track && track.getCapabilities && track.getCapabilities(); return c && c.zoom ? c.zoom : null; } catch { return null; } }
+function refreshZoomUI(){
+  const z = zoomCaps(), cur = (track && track.getSettings && track.getSettings().zoom) || 1;
+  $$('.zoomchip').forEach(b => { b.classList.toggle('hidden', !z); b.textContent = (Math.round(cur * 10) / 10) + '×'; });
 }
-$('#tAuto').onclick = () => prelabel(false);
-$('#tDelBox').onclick = () => { const rec = lbCur(); if (!rec || LB.sel < 0){ toast('Tocá una caja para seleccionarla'); return; } rec.boxes.splice(LB.sel, 1); LB.sel = -1; lbSave(); lbDraw(); };
-$('#tDelImg').onclick = async () => {
-  const rec = lbCur(); if (!rec) return; if (!confirm('¿Borrar esta foto y sus cajas?')) return;
-  await DB.del('images', rec.id); LB.imgs.splice(LB.idx, 1); LB.idx = Math.min(LB.idx, LB.imgs.length - 1); await lbShow();
-};
-$('#lbPrev').onclick = async () => { if (LB.idx > 0){ LB.idx--; await lbShow(); } };
-$('#lbNext').onclick = async () => { if (LB.idx < LB.imgs.length - 1){ LB.idx++; await lbShow(); } };
+async function cycleZoom(){
+  const z = zoomCaps(); if (!z) return;
+  const cur = (track.getSettings().zoom) || 1, lv = ZOOMS.filter(v => v >= z.min && v <= z.max);
+  const next = lv.find(v => v > cur + 0.05) ?? lv[0] ?? z.min;
+  try { await track.applyConstraints({ advanced: [{ zoom: next }] }); } catch (e){ toast('Zoom no disponible'); }
+  refreshZoomUI();
+}
+$$('.zoomchip').forEach(b => b.onclick = cycleZoom);
 
 /* ---- exportación COCO (formato que RF-DETR detecta automáticamente) ---- */
 const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
@@ -904,6 +1153,8 @@ function buildCoco(recs, classes){
 }
 async function exportDataset(){
   const recs = LB.imgs.slice();
+  const pend = recs.reduce((n, r) => n + r.boxes.filter(b => !b.cls).length, 0);
+  if (pend && !confirm(`Hay ${pend} círculo${pend === 1 ? '' : 's'} sin etiquetar: no se van a incluir. ¿Exportar igual?`)) return;
   if (recs.length < 3){ toast('Necesitás al menos 3 fotos etiquetadas'); return; }
   toast('Armando dataset…', 6000);
   // mezcla determinística y división 80/15/5 (mínimo 1 en valid y test)
@@ -928,7 +1179,6 @@ async function exportDataset(){
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
   toast(`Dataset: ${train.length} train · ${valid.length} valid · ${test.length} test`, 4000);
 }
-$('#tExport').onclick = () => exportDataset().catch(e => { console.error(e); toast('Error exportando: ' + e.message); });
 
 /* =====================================================================
    AJUSTES
@@ -958,7 +1208,7 @@ function initSettings(){
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.concat(resumen).join('\n')], { type: 'text/csv' }));
     a.download = `conteo_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.csv`; a.click();
   };
-  $('#wipeImgs').onclick = async () => { if (!confirm('¿Borrar TODAS las fotos etiquetadas? No se puede deshacer.')) return; await DB.clear('images'); LB.imgs = []; LB.idx = -1; await lbShow(); toast('Fotos borradas'); };
+  $('#wipeImgs').onclick = async () => { if (!confirm('¿Borrar TODAS las fotos etiquetadas? No se puede deshacer.')) return; await DB.clear('images'); LB.imgs = []; LB.idx = -1; updateThumb(); lbSetMode('live'); toast('Fotos borradas'); };
   $('#envInfo').textContent = `WebGPU: ${navigator.gpu ? 'sí' : 'no'} · Hilos WASM: ${self.crossOriginIsolated ? 'sí' : 'no (1 hilo)'} · ONNX Runtime ${ORT_VER}`;
 }
 
@@ -968,8 +1218,8 @@ function initSettings(){
 function switchView(v){
   view = v; $$('.view').forEach(s => s.classList.remove('on')); $('#v-' + v).classList.add('on');
   $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  if (v === 'label'){ requestAnimationFrame(lbResize); }
-  if (v !== 'label' && LB.burst){ clearInterval(LB.burst); LB.burst = null; $('#tBurst').classList.remove('on'); }
+  if (v === 'label'){ requestAnimationFrame(lbResize); lbInfo(); }
+  $('#lbMenu').classList.add('hidden'); if (v !== 'label') closePicker(false);
 }
 $$('#tabs button').forEach(b => b.onclick = () => switchView(b.dataset.v));
 
@@ -999,7 +1249,7 @@ video.addEventListener('ended', () => { if (videoFileURL){ running = false; upda
 $('#liveCamBtn') && ($('#liveCamBtn').onclick = () => $('#startCam').click());
 
 (async function boot(){
-  initSettings(); syncQuick(); renderTiles(); renderLbClasses(); resetCounts(); updatePlay();
+  initSettings(); renderTiles(); renderLbClasses(); resetCounts(); updatePlay();
   await DB.open();
   await lbLoadAll();
   restoreModel();
