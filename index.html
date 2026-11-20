@@ -519,6 +519,7 @@ async function loadModel(bytes, meta){
   M.outLogits = on.find(n => n !== M.outBoxes && /label|logit|class|score/i.test(n)) || on.find(n => n !== M.outBoxes);
   M.names = meta && Array.isArray(meta.names) ? meta.names : null;
   M.offset = meta && Number.isInteger(meta.offset) ? meta.offset : null;
+  if (meta && typeof meta.threshold === 'number'){ S.thr = meta.threshold; saveS(); $('#sThr').value = Math.round(S.thr * 100); $('#thrVal').textContent = Math.round(S.thr * 100) + '%'; }
   // resolución: classes.json o prueba automática con las resoluciones de RF-DETR
   const cands = [meta && meta.resolution, 384, 512, 576, 560, 704, 640, 432].filter((v, i, a) => v && a.indexOf(v) === i);
   M.res = 0;

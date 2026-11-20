@@ -1,0 +1,18 @@
+{
+  "names": [
+    "5_centavos",
+    "10_centavos",
+    "25_centavos",
+    "50_centavos",
+    "1_peso",
+    "2_pesos",
+    "5_pesos",
+    "10_pesos",
+    "no_moneda"
+  ],
+  "offset": 0,
+  "resolution": 384,
+  "file": "monedas_rfdetr.onnx",
+  "modelo": "RFDETRNano",
+  "threshold": 0.25
+}
